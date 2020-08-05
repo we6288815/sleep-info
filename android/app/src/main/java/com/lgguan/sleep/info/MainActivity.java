@@ -1,4 +1,4 @@
-package com.myrnproject;
+package com.lgguan.sleep.info;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "myRNProject";
+    return "sleepInfo";
   }
 }

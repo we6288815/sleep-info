@@ -1,22 +1,33 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    StatusBar,
-    Button,
-    PixelRatio,
-    TextInput,
-} from 'react-native';
-
-import {
-    Colors,
-} from 'react-native/Libraries/NewAppScreen';
 import moment from 'moment';
-import MyRNCalendar from '../../components/MyRNCalendar';
+import React, { useEffect, useState } from 'react';
+import {
+    Button, Dimensions,
 
+
+
+
+
+
+
+
+
+    PixelRatio, SafeAreaView,
+
+
+
+
+
+
+    ScrollView, StyleSheet, Text, TextInput,
+
+
+    View
+} from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import MyRNCalendar from '../../components/MyRNCalendar';
+import MyStarScope from '../../components/MyStarScope';
+
+const { width, height } = Dimensions.get('window')
 const Home = () => {
     const currentDate = moment(new Date());
     const [selectedDate, setSelectedDate] = useState(currentDate.format('YYYY-M-D'));
@@ -39,54 +50,61 @@ const Home = () => {
             });
         }
     }, [selectedDate]);
-    // const myRNCalendarRef = useRef();
     return (
         <>
-            <StatusBar barStyle="dark-content" />
             <SafeAreaView>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
+                <ScrollView >
                     <MyRNCalendar
                         onChangeDate={(date) => {
-                            console.log('select date:', date);
                             setSelectedDate(date);
                         }}
                     />
-                    <View style={{
-                        marginTop: 10,
-                    }}>
+                    <View style={{ height: 10, backgroundColor: '#9EA3AD' }}></View>
+                    <View style={styles.formView}>
                         <View style={styles.rowView} >
-                            <Text style={styles.textInputTitle}>评分</Text>
-                            <TextInput value={ratioStar} onChangeText={(value) => {
-                                setRatioStar(value);
-                                setNeedSave(true);
-                            }}
-                                style={styles.textInput}
-                            />
+                            <View style={styles.cellView}>
+                                <Text style={styles.textInputTitle}>评分</Text>
+                            </View>
+                            <View style={styles.cellView}>
+                                <MyStarScope star={ratioStar} onChangeStar={(value) => {
+                                    setRatioStar(value);
+                                    setNeedSave(true);
+                                }} />
+                            </View>
                         </View>
                         <View style={styles.rowView} >
-                            <Text style={styles.textInputTitle}>评价</Text>
-                            <TextInput value={description} onChangeText={(value) => {
-                                setDescription(value);
-                                setNeedSave(true);
-                            }} multiline style={styles.textMultilineInput} />
+                            <View style={styles.cellView}>
+                                <Text style={styles.textInputTitle}>评价</Text>
+                            </View>
+                            <View style={styles.cellView}>
+                                <TextInput
+                                    // style={styles.textMultilineInput}
+                                    value={description}
+                                    placeholder={"请输入评价"}
+                                    multiline
+                                    numberOfLines={5}
+                                    onChangeText={(value) => {
+                                        setDescription(value);
+                                        setNeedSave(true);
+                                    }}
+                                />
+                            </View>
                         </View>
-                        <Button title="保存" disabled={!needSave}
-                            onPress={() => {
-                                const sleepInfo = {
-                                    date: selectedDate,
-                                    ratioStar: ratioStar,
-                                    description: description,
-                                }
-                                storage.save({
-                                    key: 'sleepInfos',
-                                    id: selectedDate,
-                                    data: sleepInfo
-                                });
-                                setNeedSave(false);
-                            }} />
                     </View>
+                    <Button title="保存" disabled={!needSave}
+                        onPress={() => {
+                            const sleepInfo = {
+                                date: selectedDate,
+                                ratioStar: ratioStar,
+                                description: description,
+                            }
+                            storage.save({
+                                key: 'sleepInfos',
+                                id: selectedDate,
+                                data: sleepInfo
+                            });
+                            setNeedSave(false);
+                        }} />
                 </ScrollView>
             </SafeAreaView>
         </>
@@ -97,54 +115,33 @@ const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: Colors.lighter,
     },
-    centeredView: {
+    formView: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        // marginTop: 22
-    },
-    modalView: {
-        // margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 100,
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
+        justifyContent: 'flex-start',
+        alignContent: "center",
     },
     rowView: {
         flexDirection: 'row',
-        height: 44,
-        alignItems: 'center',
+        minHeight: 40,
         marginRight: 15,
         marginLeft: 15,
-        //paddingTop:15,  
         borderBottomWidth: 0.5 / PixelRatio.get(),
         borderColor: 'gray',//需要标色
     },
+    cellView: {
+        justifyContent: 'center',
+    },
     textInputTitle: {
-        width: 80,
+        width: 50,
         fontSize: 13,
-        //color: '#333',  
-        //backgroundColor: 'red',  
     },
     textInput: {
         flex: 1,
-        height: 44,
         justifyContent: 'flex-end',
         flexDirection: 'row',
     },
     textMultilineInput: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
+        height: 200,
     }
 });
 

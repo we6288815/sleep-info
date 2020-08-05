@@ -1,6 +1,6 @@
-import React, { useState, createContext, useEffect } from 'react';
-import { Modal, View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const { width, height } = Dimensions.get('window')
 
@@ -88,7 +88,7 @@ const MyRNCalendar = (props) => {
                     <Text style={{
                         fontSize: 14,
                         color: '#9EA3AD',
-                    }}>上个月</Text>
+                    }}>&lt;上个月</Text>
                 </TouchableOpacity>
                 <Text style={{
                     fontSize: 16,
@@ -103,7 +103,7 @@ const MyRNCalendar = (props) => {
                     <Text style={{
                         fontSize: 14,
                         color: '#9EA3AD',
-                    }}>下个月</Text>
+                    }}>下个月&gt;</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -159,10 +159,10 @@ const MyRNCalendar = (props) => {
                 <View
                     style={{
                         width: width / 7,
-                        height: 40,
+                        height: 35,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: 5,  //圆角5
+                        borderRadius: 50,  //圆角5
                         borderWidth: 1,
                         borderColor: 'white',
                         backgroundColor: (year + '-' + month + '-' + item) === selectedDate ? '#3576F0' : 'white',
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     },
     canlendarStyle: {
         width: width,
-        height: 320,
+        height: 310,
         alignItems: 'center',
         justifyContent: 'center',
         borderTopColor: '#cccccc',
